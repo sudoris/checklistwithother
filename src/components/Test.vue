@@ -19,13 +19,13 @@
     </div>
 
     <div>
-      <label for="ingredInput"></label>
+      <label for="ingredInput">Other: </label>
       <input type="text" id="ingredInput" v-model="myValue" @change="addIng">
     </div>
 
 
 
-    <button @click="deletee">Delete</button>
+    
     <button @click="combine">Combine</button>
     
     <br>
@@ -59,10 +59,10 @@ export default {
     combine() {
       this.ingredients.push(...this.other)
     },
-    deletee() {
-      // this.$delete(this.ingredients, 1)
-      this.ingredients.splice(1, 1)
-    },    
+    // deletee() {
+    //   // this.$delete(this.ingredients, 1)
+    //   this.ingredients.splice(1, 1)
+    // },    
     addIng(value){
       if (!this.ingredients.includes(this.myValue) && !this.other.includes(this.myValue)) {
         this.other.push(this.myValue)
