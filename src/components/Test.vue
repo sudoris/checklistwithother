@@ -2,43 +2,16 @@
   <div>
 
     <div id='example-3'>
-      <input type="checkbox" id="chili" value="Chili" v-model="ingredients">
-      <label for="chili">Chili</label>
-      <input type="checkbox" id="salt" value="Salt" v-model="ingredients">
-      <label for="salt">Salt</label>
-      <input type="checkbox" id="butter" value="Butter" v-model="ingredients">
-      <label for="butter">Butter</label>
-      <br>      
-    </div>
-
-    
-
-    <div v-for="(item, index) in other" :key="index">
-      <label for="ingredient">Ingredient:</label>
-      <input type="text" id="ingredient" v-model="other[index]">
-    </div>
-
-    <div>
-      <label for="ingredInput">Other: </label>
-      <input type="text" id="ingredInput" v-model="myValue" @change="addIng">
+    <span v-for="item in items" :key="item">
+      <input type="checkbox" :id="item" :value="item" v-model="values">
+      <label :for="item">{{item}}</label>
+    </span>
+    <input type="text" placeholder="Other..." v-on:keyup.13="add_item" v-model="other_val" style="margin-left:10px">
+    <button v-if="other_val" v-on:click="add_item">+</button>
     </div>
 
 
-
-    
-    <button @click="combine">Combine</button>
-    
-    <br>
-    {{ myValue }}
-    
-    <br>
-    <span>All ingredients: {{ ingredients }}</span>
-    <br>
-
-    <span>Other: {{ other }}</span>
-
-    
-    
+    {{ values }}    
     
   </div>
 </template>
@@ -48,46 +21,24 @@ export default {
   name: "Test",
   data() {
     return {
-      title: null,
-      ingredients: [],
-      other: [],
-      myValue: null,
-      feedback: null
+      def_items:['Chili','Salt','Butter'],
+      values:[],
+      other_val:''
     };
   },
+  computed:{
+    items(){
+      return this.def_items.concat(this.values.filter((x)=> !this.def_items.includes(x)));
+    }
+  },
   methods: {
-    combine() {
-      this.ingredients.push(...this.other)
-    },
-    // deletee() {
-    //   // this.$delete(this.ingredients, 1)
-    //   this.ingredients.splice(1, 1)
-    // },    
-    addIng(value){
-      if (!this.ingredients.includes(this.myValue) && !this.other.includes(this.myValue)) {
-        this.other.push(this.myValue)
+    add_item(){
+      if (this.other_val){
+        this.values.push(this.other_val)
+        this.other_val=''
       }
       
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
